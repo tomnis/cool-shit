@@ -13,6 +13,7 @@ class LinkedListDisjointSetSpec extends FlatSpec with Matchers{
 
     s.makeSet(4)
     s.sets should have size 1
+    s.findSetObject(4).get should have size 1
   }
 
 
@@ -51,5 +52,7 @@ class LinkedListDisjointSetSpec extends FlatSpec with Matchers{
 
     s.findSet(6) should be (Some(4))
     s.findSet(5) should be (Some(4))
+
+    s.findSetObject(5).get should have size 3
   }
 }
