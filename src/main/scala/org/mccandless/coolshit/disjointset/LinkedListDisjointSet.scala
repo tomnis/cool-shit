@@ -25,7 +25,9 @@ package org.mccandless.coolshit.disjointset
   *
   * Created by tdm on 11/29/18.
   */
-class LinkedListDisjointSet[T] extends MutableDisjointSet[Node, T] {
+class LinkedListDisjointSet[T] extends MutableDisjointSet[ListNode, T] {
+
+
 
   /**
     * @return the number of disjoint sets we are tracking.
@@ -41,7 +43,7 @@ class LinkedListDisjointSet[T] extends MutableDisjointSet[Node, T] {
     */
   override def create(x: T): Unit = {
     val s: Sentinel[T] = Sentinel.empty
-    val n: Node[T] = Node(x)(s)
+    val n: ListNode[T] = ListNode(x)(s)
     s.head = n
     s.tail = n
     s.size = 1
@@ -52,7 +54,7 @@ class LinkedListDisjointSet[T] extends MutableDisjointSet[Node, T] {
     * @param x
     * @return the representative [[NodeLike]] for the set containing `x`, if it exists.
     */
-  override def findRepNode(x: T): Option[Node[T]] = this.nodes get x map { _.sentinel.head }
+  override def findRepNode(x: T): Option[ListNode[T]] = this.nodes get x map { _.sentinel.head }
 
   /**
     * Joins two sets together to make a new set.
@@ -62,7 +64,7 @@ class LinkedListDisjointSet[T] extends MutableDisjointSet[Node, T] {
     * @param x
     * @param y
     */
-  override def join(x: Node[T], y: Node[T]): Unit = this.weightedUnion(x.sentinel, y.sentinel)
+  override def join(x: ListNode[T], y: ListNode[T]): Unit = this.weightedUnion(x.sentinel, y.sentinel)
 
   /**
     * Weighted-union heuristic for union.
@@ -88,5 +90,32 @@ class LinkedListDisjointSet[T] extends MutableDisjointSet[Node, T] {
     longer.tail.maybeNext = Option(shorter.head)
     longer.tail = shorter.tail
     longer.size += shorter.size
+  }
+}
+
+case class Sentinel[T](var head: ListNode[T], var tail: ListNode[T], var size: Int)
+object Sentinel {
+  def empty[T]: Sentinel[T] = new Sentinel[T](null, null, size = 0)
+}
+
+
+/**
+  * Node in a linked list.
+  *
+  * Each node maintains a pointer to the set sentinel object it is a member of.
+  *
+  * Note that `set` is defined in a second parameter list so that it is not considered eligible for fields taking part in
+  * hashCode. This avoids a circular reference when computing SetObject.hashCode
+  *
+  * @param data
+  * @param maybeNext
+  * @param sentinel a pointer to the "sentinel" set object.
+  * @tparam T
+  */
+case class ListNode[T](data: T, var maybeNext: Option[ListNode[T]] = None)(var sentinel: Sentinel[T]) extends NodeLike[T] {
+  // TODO use setter syntax
+  def setSentinel(sPrime: Sentinel[T]): Unit = {
+    this.sentinel = sPrime
+    this.maybeNext foreach { _.setSentinel(sPrime) }
   }
 }
