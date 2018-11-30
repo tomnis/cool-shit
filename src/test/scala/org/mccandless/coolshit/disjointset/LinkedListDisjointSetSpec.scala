@@ -12,8 +12,8 @@ class LinkedListDisjointSetSpec extends FlatSpec with Matchers{
     val s = new LinkedListDisjointSet[Int]
 
     s.makeSet(4)
-    s.sets should have size 1
-    s.findSetObject(4).get should have size 1
+    s should have size 1
+    s.findRepNode(4).get.sentinel should have size 1
   }
 
 
@@ -21,14 +21,14 @@ class LinkedListDisjointSetSpec extends FlatSpec with Matchers{
     val s = new LinkedListDisjointSet[Int]
 
     s.makeSet(4)
-    s.sets should have size 1
+    s should have size 1
     s.makeSet(4).isFailure should be (true)
   }
 
 
   it should "find" in {
     val s = new LinkedListDisjointSet[Int]
-    s.sets should be (empty)
+    s should have size 0
 
     s.findSet(1) should be (None)
     s.makeSet(1)
@@ -42,17 +42,17 @@ class LinkedListDisjointSetSpec extends FlatSpec with Matchers{
     s.makeSet(4)
     s.makeSet(5)
     s.makeSet(6)
-    s.sets should have size 3
+    s should have size 3
 
     s.union(4, 5)
-    s.sets should have size 2
+    s should have size 2
 
     s.union(5, 6)
-    s.sets should have size 1
+    s should have size 1
 
     s.findSet(6) should be (Some(4))
     s.findSet(5) should be (Some(4))
 
-    s.findSetObject(5).get should have size 3
+    s.findRepNode(5).get.sentinel should have size 3
   }
 }

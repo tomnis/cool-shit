@@ -14,30 +14,20 @@ import scala.util.{Failure, Success, Try}
   */
 // TODO rename to DisjointSetPointer?
 // or DisjointSetCommon?
-trait MutableDisjointSet[T] extends DisjointSetApi[T] {
+trait MutableDisjointSet[N[T] <: NodeLike[T], T] extends DisjointSetApi[T] {
 
-  /**
-    * Data type used as a wrapper for the representative object.
-    * - SetObject (or sentinel) for linkedlist
-    * - Node for forest
-    *
-    * @tparam _
-    */
-  type M[_]
-  type N[_]
-
-  val sets: mutable.Set[M[T]] = mutable.Set.empty
   val nodes: mutable.Map[T, N[T]] = mutable.Map.empty
+
 
   def create(x: T): Unit
 
   /**
+    * Finds the representative object for the set containing `x`
     *
     * @param x
-    * @return the [[NodeLike]] containing `x`, if it exists.
+    * @return the representative [[NodeLike]] for the set containing `x`, if it exists.
     */
-  def findNode(x: T): Option[N[T]]
-
+  def findRepNode(x: T): Option[N[T]]
 
   /**
     * Combines x and y sets
@@ -49,14 +39,14 @@ trait MutableDisjointSet[T] extends DisjointSetApi[T] {
 
 
   override def makeSet(x: T): Try[Unit] = {
-    if (this.nodes contains x) Failure(new RuntimeException(s"already have a set containing $x"))
+    if (this.findRepNode(x).isDefined) Failure(new RuntimeException(s"already have a set containing $x"))
     else Try(this create x)
   }
 
   override def union(x: T, y: T): Try[Unit] = {
     val r = for {
-      xSet: N[T] <- this findNode x
-      ySet: N[T] <- this findNode y
+      xSet: N[T] <- this findRepNode x
+      ySet: N[T] <- this findRepNode y
     } yield this.join(xSet, ySet)
 
     r match {
@@ -64,8 +54,10 @@ trait MutableDisjointSet[T] extends DisjointSetApi[T] {
       case None => Failure(new RuntimeException)
     }
   }
+
+  override def findSet(x: T): Option[T] = this.findRepNode(x) map { _.data }
 }
 
-//trait NodeLike[T] {
-//  val data: T
-//}
+trait NodeLike[T] {
+  val data: T
+}
