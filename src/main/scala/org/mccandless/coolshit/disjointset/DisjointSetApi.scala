@@ -3,15 +3,12 @@ package org.mccandless.coolshit.disjointset
 import scala.util.Try
 
 /**
-  * Maintains a collection of disjoint sets.
-  *
-  * Each set is identified by a representative element.
-  *
-  * Operations are anlyzed in terms of `n`, the number of calls to `makeSet`, and `m`, the total number of operations.
+  * Defines the API of a Union-Find data structure for maintaining a collection of disjoint sets.
   *
   * Created by tdm on 11/29/18.
   */
-trait DisjointSetLike[T] {
+// TODO rename to union-find?
+trait DisjointSetApi[T] {
 
   /**
     * Creates a new set whose only member is `x`.
