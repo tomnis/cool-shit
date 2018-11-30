@@ -1,23 +1,21 @@
 package org.mccandless.coolshit.disjointset
 
-
 /**
   *
-  * Created by tdm on 11/29/18.
+  * Created by tdm on 11/30/18.
   */
-class LinkedListDisjointSetSpec extends BaseSpec {
+class ForestDisjointSetSpec extends BaseSpec {
 
-  "LinkedListDisjointSet" should "make set" in {
-    val s = new LinkedListDisjointSet[Int]
+  "ForestDisjointSet" should "make set" in {
+    val s = new ForestDisjointSet[Int]
 
     s.makeSet(4)
     s should have size 1
-    s.findRepNode(4).get.sentinel should have size 1
   }
 
 
   it should "not allow duplicates" in {
-    val s = new LinkedListDisjointSet[Int]
+    val s = new ForestDisjointSet[Int]
 
     s.makeSet(4)
     s should have size 1
@@ -26,7 +24,7 @@ class LinkedListDisjointSetSpec extends BaseSpec {
 
 
   it should "find" in {
-    val s = new LinkedListDisjointSet[Int]
+    val s = new ForestDisjointSet[Int]
     s should have size 0
 
     s.findSet(1) should be (None)
@@ -36,7 +34,7 @@ class LinkedListDisjointSetSpec extends BaseSpec {
 
 
   it should "union" in {
-    val s = new LinkedListDisjointSet[Int]
+    val s = new ForestDisjointSet[Int]
 
     s.makeSet(4)
     s.makeSet(5)
@@ -51,7 +49,5 @@ class LinkedListDisjointSetSpec extends BaseSpec {
 
     s.findSet(6) should be (Some(4))
     s.findSet(5) should be (Some(4))
-
-    s.findRepNode(5).get.sentinel should have size 3
   }
 }

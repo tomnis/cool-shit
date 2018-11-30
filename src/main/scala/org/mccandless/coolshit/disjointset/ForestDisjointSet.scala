@@ -10,6 +10,8 @@ package org.mccandless.coolshit.disjointset
   */
 class ForestDisjointSet[T] extends MutableDisjointSet[TreeNode, T] {
 
+
+  protected[disjointset] def size(): Int = this.nodes.keys.map(findRepNode).toList.distinct.length
   /**
     * Creates a new set containing a single element `x`.
     *
