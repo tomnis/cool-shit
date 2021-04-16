@@ -47,7 +47,23 @@ class ForestDisjointSetSpec extends BaseSpec {
     s.union(5, 6)
     s should have size 1
 
-    s.findSet(6) should be (Some(4))
-    s.findSet(5) should be (Some(4))
+    s.findSet(6) should be (Some(5))
+    s.findSet(5) should be (Some(5))
+
+
+    def recur(i: Int): Unit = {
+      println(i)
+      recur(i + 1)
+    }
+
+    recur(0)
   }
+
+
+  def recur(i: Int): Unit = {
+    println(i)
+    recur(i + 1)
+  }
+
+  recur(0)
 }
