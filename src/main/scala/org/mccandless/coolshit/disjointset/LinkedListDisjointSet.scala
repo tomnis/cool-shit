@@ -28,12 +28,6 @@ package org.mccandless.coolshit.disjointset
 class LinkedListDisjointSet[T] extends MutableDisjointSet[ListNode, T] {
 
 
-
-  /**
-    * @return the number of disjoint sets we are tracking.
-    */
-  protected[disjointset] def size(): Int = this.nodes.values.map(_.sentinel).toList.distinct.length
-
   /**
     * Creates a new set containing a single element `x`.
     *
@@ -49,6 +43,11 @@ class LinkedListDisjointSet[T] extends MutableDisjointSet[ListNode, T] {
     s.size = 1
     this.nodes += (x -> n)
   }
+
+  /**
+    * @return the number of disjoint sets we are tracking.
+    */
+  protected[disjointset] def size(): Int = this.nodes.values.map(_.sentinel).toList.distinct.length
 
   /**
     * @param x

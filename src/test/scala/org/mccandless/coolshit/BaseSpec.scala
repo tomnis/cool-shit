@@ -1,4 +1,4 @@
-package org.mccandless.coolshit.disjointset
+package org.mccandless.coolshit
 
 import org.scalatest.{FlatSpec, Matchers}
 

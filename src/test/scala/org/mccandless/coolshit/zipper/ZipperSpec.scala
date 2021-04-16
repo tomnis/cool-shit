@@ -31,7 +31,7 @@ class ZipperSpec extends BaseSpec{
 
     // traverse and modify. common subtrees unmodified are shared in memory, similar to copy on write
     // in general, zipper allows for elements close to the cursor to be efficiently updated
-    val t2 = z.left.left.right.modify(_ => Leaf(45)).upmost.focus
+    val t2: Tree[Int] = z.left.left.right.modify(_ => Leaf(45)).upmost.focus
     // we could also graft in an entirely different subtree here
 //    val t2 = z.left.left.right.modify(_ => Branch(Leaf(1), Leaf(2))).upmost.focus
 

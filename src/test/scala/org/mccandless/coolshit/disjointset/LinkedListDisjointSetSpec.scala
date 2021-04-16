@@ -1,5 +1,7 @@
 package org.mccandless.coolshit.disjointset
 
+import org.mccandless.coolshit.BaseSpec
+
 
 /**
   *

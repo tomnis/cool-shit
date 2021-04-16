@@ -7,7 +7,6 @@ import scala.util.Try
   *
   * Created by tdm on 11/29/18.
   */
-// TODO rename to union-find?
 trait DisjointSetApi[T] {
 
   /**

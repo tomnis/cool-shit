@@ -22,14 +22,14 @@ case class Zipper[A](focus: Tree[A], context: Context[A]) {
 
   // (Fork l r, c) = (l, L c r)
   def left: Zipper[A] = this match {
-    case Zipper(Branch(l, r), c) => Zipper(l, Left(c, r))
+    case Zipper(Branch(left, right), cxt) => Zipper(left, Left(cxt, right))
     case _ => ???
   }
 
 
   // (Fork l r, c) = (r, R l c)
   def right: Zipper[A] = this match {
-    case Zipper(Branch(l, r), c) => Zipper(r, Right(l, c))
+    case Zipper(Branch(left, right), cxt) => Zipper(right, Right(left, cxt))
     case _ => ???
   }
 
@@ -37,8 +37,8 @@ case class Zipper[A](focus: Tree[A], context: Context[A]) {
   //up (t, L c r) = (Fork t r, c)
   //up (t, R l c) = (Fork l t, c)
   def up: Zipper[A] = this match {
-    case Zipper(t, Left(c, r)) => Zipper(Branch(t, r), c)
-    case Zipper(t, Right(l, c)) => Zipper(Branch(l, t), c)
+    case Zipper(focus, Left(cxt, right)) => Zipper(Branch(focus, right), cxt)
+    case Zipper(focus, Right(left, cxt)) => Zipper(Branch(left, focus), cxt)
     case _ => ???
   }
 
