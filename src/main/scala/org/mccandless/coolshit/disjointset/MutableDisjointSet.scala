@@ -18,6 +18,7 @@ trait MutableDisjointSet[N[T] <: NodeLike[T], T] extends DisjointSetApi[T] {
 
   val nodes: mutable.Map[T, N[T]] = mutable.Map.empty
 
+  def size(): Int
 
   def create(x: T): Unit
 
